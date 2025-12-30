@@ -33,15 +33,11 @@
 
       .left-section {
         flex: 1;
+        width: 100%;
       }
       .right-section {
         flex: 1;
-      }
-
-      @media screen and (max-width: 1024px) {
-        .price-estimate-container {
-          flex-direction: column;
-        }
+        width: 100%;
       }
 
       .estimate-info-card {
@@ -185,12 +181,6 @@
         gap: 60px;
       }
 
-      @media screen and (max-width: 767px) {
-        .complexity-button-group{
-            gap: 20px;
-        }
-      }
-
       .complexity-btn {
         flex: 1;
         border: none;
@@ -302,7 +292,8 @@
         border: none;
       }
 
-      .calculate-btn::before , .proceed-btn::before {
+      .calculate-btn::before,
+      .proceed-btn::before {
         content: "";
         position: absolute;
         top: 0;
@@ -316,7 +307,8 @@
         border: none;
       }
 
-      .calculate-btn:hover::before, .proceed-btn:hover::before {
+      .calculate-btn:hover::before,
+      .proceed-btn:hover::before {
         width: 100%;
       }
 
@@ -458,6 +450,99 @@
           flex-direction: column;
           align-items: flex-end;
           gap: 15px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .price-estimate-container {
+          flex-direction: column;
+        }
+        .price-estimate-section {
+          padding: 16px;
+          border-radius: 16px;
+        }
+
+        .price-estimate-container {
+          gap: 24px;
+        }
+
+        .estimate-info-card-title {
+          font-size: 20px;
+        }
+
+        .subtitle-with-price {
+          flex-wrap: wrap;
+          font-size: 13px;
+        }
+
+        .image-container {
+          height: 260px;
+        }
+
+        .description-title {
+          font-size: 16px;
+        }
+
+        .description-content {
+          font-size: 13px;
+        }
+
+        .range-slider-container h3,
+        .complexity-title,
+        .quantity-title,
+        .services h4 {
+          font-size: 18px;
+        }
+
+        .complexity-btn {
+          font-size: 16px;
+          padding: 12px;
+        }
+
+        .quantity-display {
+          font-size: 16px;
+        }
+
+        .calculate-btn {
+          font-size: 20px;
+          padding: 12px 30px;
+        }
+
+        .estimate-table th,
+        .estimate-table td {
+          font-size: 13px;
+          padding: 10px;
+        }
+
+        .estimate-total-amount {
+          font-size: 20px;
+        }
+
+        .proceed-btn {
+          width: 100%;
+        }
+      }
+      @media (max-width: 480px) {
+        .complexity-button-group {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .range-slider-label-item {
+          font-size: 14px;
+        }
+
+        .quantity-control-group {
+          padding: 8px 12px;
+        }
+
+        .estimate-footer {
+          align-items: stretch;
+        }
+
+        .estimate-total-wrapper {
+          justify-content: space-between;
+          width: 100%;
         }
       }
     </style>
