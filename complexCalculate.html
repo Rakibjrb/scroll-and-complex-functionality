@@ -681,7 +681,12 @@
                 >$0.00</span
               >
             </div>
-            <button class="proceed-btn">Proceed to Next</button>
+            <button
+              class="proceed-btn"
+              onclick="redirectToNext('/paste-link-here')"
+            >
+              Proceed to Next
+            </button>
           </div>
         </div>
       </section>
@@ -921,6 +926,10 @@
           quantityDisplay.innerText = quantity -= 1;
           handleContent();
         }
+      }
+
+      function redirectToNext(url) {
+        window.location.replace(url);
       }
 
       function handleContent() {
