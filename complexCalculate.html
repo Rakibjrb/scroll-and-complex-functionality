@@ -562,7 +562,7 @@
                 <span class="subtitle-text"
                   >Per image clipping path (simple) starting at just</span
                 >
-                <div class="subtitle-price-badge">0.29$</div>
+                <div class="subtitle-price-badge" id="price-badge">0.29$</div>
               </div>
 
               <div class="image-container">
@@ -593,11 +593,7 @@
           <div class="right-section">
             <div class="services">
               <h4>Services</h4>
-              <select class="available-services">
-                <option>Service 1</option>
-                <option>Service 2</option>
-                <option>Service 3</option>
-              </select>
+              <select class="available-services" id="select-service"></select>
             </div>
 
             <div class="range-slider-container">
@@ -610,7 +606,7 @@
                 step="1"
                 value="1"
                 class="range-slider-input"
-                id="prioritySlider"
+                id="ternaroundTime"
               />
 
               <div class="range-slider-labels">
@@ -624,18 +620,11 @@
               <div class="complexity-title">Complexity</div>
 
               <div class="complexity-button-group">
-                <button
-                  class="complexity-btn complexity-active"
-                  onclick="selectComplexity(this)"
-                >
+                <button class="complexity-btn complexity-active" value="simple">
                   Simple
                 </button>
-                <button class="complexity-btn" onclick="selectComplexity(this)">
-                  Medium
-                </button>
-                <button class="complexity-btn" onclick="selectComplexity(this)">
-                  Complex
-                </button>
+                <button class="complexity-btn" value="medium">Medium</button>
+                <button class="complexity-btn" value="complex">Complex</button>
               </div>
             </div>
 
@@ -643,13 +632,13 @@
               <div class="quantity-title">Quantity</div>
 
               <div class="quantity-control-group">
-                <button class="quantity-btn" onclick="updateQuantity(-1)">
+                <button class="quantity-btn" onclick="decreaseQuantity()">
                   −
                 </button>
 
                 <div class="quantity-display" id="quantityCount">1</div>
 
-                <button class="quantity-btn" onclick="updateQuantity(1)">
+                <button class="quantity-btn" onclick="increaseQuantity()">
                   +
                 </button>
               </div>
@@ -672,13 +661,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <!-- <tr>
                   <td>Clipping Path</td>
                   <td>24 Hours</td>
                   <td>Medium</td>
                   <td>10</td>
                   <td>$0.50</td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -686,7 +675,9 @@
           <div class="estimate-footer">
             <div class="estimate-total-wrapper">
               <span class="estimate-total-label">Total Price Estimate:</span>
-              <span class="estimate-total-amount">$5.00</span>
+              <span class="estimate-total-amount" id="estimate-total-price"
+                >$5.00</span
+              >
             </div>
             <button class="proceed-btn">Proceed to Next</button>
           </div>
@@ -695,35 +686,155 @@
     </div>
 
     <script>
-      const slider = document.getElementById("prioritySlider");
-      const output = document.getElementById("selectedValue");
+      // input for calculation
+      const selectService = document.getElementById("select-service");
+      const ternaroundTime = document.getElementById("ternaroundTime");
+      const complexityButtons = document.querySelectorAll(".complexity-btn");
+      const quantityDisplay = document.getElementById("quantityCount");
+      const priceBadge = document.getElementById("price-badge");
+      const estTotalPrice = document.getElementById("estimate-total-price");
 
-      // ভ্যালু কনফিগারেশন
-      const statusMap = {
-        1: "High (12h)",
-        2: "Medium (24h)",
-        3: "Low (48h)",
-      };
+      const allServices = [
+        {
+          name: "Clipping Path",
+          simple: {
+            image: "",
+            subtitle: "Per image clipping path (simple) starting at just...",
+            timePrice: {
+              h12: 0.41,
+              h24: 0.29,
+              h48: 0.23,
+            },
+            description: {
+              title: "How do we define simple clipping path service?",
+              desc: "Simple clipping path means a single path with mostly straight curves since the focused object doesn’t have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as mobile, book, ball, plate, ring, egg, etc.",
+            },
+          },
+          medium: {
+            subtitle: "Per image clipping path (medium) starting at just...",
+            timePrice: {
+              h12: 2.09,
+              h24: 1.49,
+              h48: 1.19,
+            },
+            description: {
+              title: "How do we define medium clipping path service?",
+              desc: "Medium clipping path means multiple paths and few holes inside with multiple curves. We consider medium clipping path when the working image has more anchor points than the simple clipping path. This service applied to bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods etc.",
+            },
+          },
+          complex: {
+            subtitle: "Per image clipping path (complex) starting at just...",
+            timePrice: {
+              h12: 9.8,
+              h24: 7.0,
+              h48: 5.6,
+            },
+            description: {
+              title: "How do we define complex clipping path service?",
+              desc: "Complex clipping path means multiple paths and holes inside with compound and complex shapes, designs and many curves. We consider complex clipping path when the working image has more holes and anchor points than the medium clipping path. This service applied to various products such as furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
+            },
+          },
+        },
+        {
+          name: "Background Removal",
+          simple: {
+            subtitle: "Per image clipping path (simple) starting at just...",
+            timePrice: {
+              h12: 0.41,
+              h24: 0.29,
+              h48: 0.23,
+            },
+            description: {
+              title: "How do we define simple clipping path service?",
+              desc: "Simple clipping path means a single path with mostly straight curves since the focused object doesn’t have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as mobile, book, ball, plate, ring, egg, etc.",
+            },
+          },
+          medium: {
+            subtitle: "Per image clipping path (medium) starting at just...",
+            timePrice: {
+              h12: 2.09,
+              h24: 1.49,
+              h48: 1.19,
+            },
+            description: {
+              title: "How do we define medium clipping path service?",
+              desc: "Medium clipping path means multiple paths and few holes inside with multiple curves. We consider medium clipping path when the working image has more anchor points than the simple clipping path. This service applied to bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods etc.",
+            },
+          },
+          complex: {
+            subtitle: "Per image clipping path (complex) starting at just...",
+            timePrice: {
+              h12: 9.8,
+              h24: 7.0,
+              h48: 5.6,
+            },
+            description: {
+              title: "How do we define complex clipping path service?",
+              desc: "Complex clipping path means multiple paths and holes inside with compound and complex shapes, designs and many curves. We consider complex clipping path when the working image has more holes and anchor points than the medium clipping path. This service applied to various products such as furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
+            },
+          },
+        },
+      ];
 
-      slider.oninput = function () {
-        output.textContent = statusMap[this.value];
-      };
+      // state variables
+      let quantity = parseInt(quantityDisplay.innerText);
+      let complexity = "simple";
+      let ternTime = "h12";
+      let service = allServices[0].name;
 
-      function selectComplexity(element) {
-        document.querySelectorAll(".complexity-btn").forEach((btn) => {
-          btn.classList.remove("complexity-active");
+      // render dynamic service option
+      {
+        allServices.forEach((serviceOption) => {
+          const option = document.createElement("option");
+          option.innerText = serviceOption.name;
+          option.value = serviceOption.name;
+          selectService.appendChild(option);
         });
-        element.classList.add("complexity-active");
       }
 
-      function updateQuantity(change) {
-        const display = document.getElementById("quantityCount");
-        let currentCount = parseInt(display.innerText);
+      // set complexity functions
+      complexityButtons.forEach((cButton) => {
+        cButton.addEventListener("click", (e) => {
+          complexityButtons.forEach((btn) =>
+            btn.classList.remove("complexity-active")
+          );
+          // add active class to clicked button
+          if (cButton.value === e.target.value) {
+            e.target.classList.add("complexity-active");
+            complexity = e.target.value; // set complexity
+            handleContent();
+          }
+        });
+      });
 
-        // সংখ্যা যেন ১ এর নিচে না যায়
-        if (currentCount + change >= 1) {
-          display.innerText = currentCount + change;
+      // set ternaround time
+      ternaroundTime.addEventListener("change", (e) => {
+        const availableTime = {
+          1: "h12",
+          2: "h24",
+          3: "h48",
+        };
+        ternTime = availableTime[e.target.value];
+        handleContent();
+      });
+
+      selectService.addEventListener("change", (e) => {
+        service = e.target.value;
+        handleContent();
+      });
+
+      function increaseQuantity() {
+        quantityDisplay.innerText = quantity += 1;
+      }
+
+      function decreaseQuantity() {
+        if (quantity > 1) {
+          quantityDisplay.innerText = quantity -= 1;
         }
+      }
+
+      function handleContent() {
+        console.log(complexity, ternTime, service);
       }
     </script>
   </body>
