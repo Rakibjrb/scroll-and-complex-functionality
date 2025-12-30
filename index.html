@@ -3,79 +3,254 @@
   <head>
     <meta charset="UTF-8" />
     <title>Vertical to Horizontal Scroll</title>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      /* Spacer sections */
+      .spacer {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        background: #f3f4f6;
+      }
+
+      .container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+
+      .horizontal-scroll-wrapper {
+        padding: 24px 0;
+      }
+
+      .sticky-container {
+        position: sticky;
+        width: 100%;
+        top: 30%;
+        left: 0;
+        overflow: hidden;
+      }
+
+      .cards-wrapper {
+        display: flex;
+        gap: 20px;
+        will-change: transform;
+      }
+
+      .card {
+        min-width: 50%;
+        height: 500px;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid white;
+        transition: all 1s ease;
+      }
+
+      .card:hover {
+        border: 1px solid rgb(80, 80, 255);
+      }
+
+      @media screen and (max-width: 425px) {
+        .card {
+          min-width: 100%;
+          height: 360px;
+        }
+      }
+      @media screen and (min-width: 426px) and (max-width: 767px) {
+        .card {
+          min-width: 100%;
+          height: 460px;
+        }
+      }
+      /* Title */
+      .card-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      /* Image area */
+      .card-image-container {
+        flex: 1; /* remaining space nibe */
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        background: #fff;
+        position: relative;
+        margin-top: 24px;
+      }
+
+      .card-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 10px;
+      }
+
+      .show-scroll-width {
+        width: 100%;
+        height: 10px;
+        border-radius: 50px;
+        background: #cad6ff;
+        margin-top: 20px;
+      }
+      .scrolled-width {
+        width: 10%;
+        height: 100%;
+        background-color: rgb(130, 130, 255);
+        border-radius: 50px;
+      }
+    </style>
   </head>
   <body>
-    <!-- <section class="spacer">Scroll Down ↓</section> -->
+    <section class="spacer">Scroll Down ↓</section>
 
-    <section class="gallery-section">
-      <div class="box">
-        <div class="left-content">
-          <h3>Other Services Provided</h3>
-          <p>
-            With an array of tools and techniques at their disposal, our skilled
-            editors enhance color,correct imperfections and sometimes even alter
-            reality to create the perfect visual narrative.
-          </p>
-          <p>
-            The perfect picture no longer requires you to be a tech whiz,
-            whether you’re shooting for sales or to preserve your memories our
-            services can help. Our comprehensive suite of services caters to
-            your every photo editing need, ensuring quality, consistency and the
-            preservation of your visual assets. Whether you’re an e-commerce
-            store, a professional photographer or looking to restore historical
-            family photos, our expertise is at your service.
-          </p>
+    <div class="container">
+      <section class="horizontal-scroll-wrapper">
+        <div class="sticky-container">
+          <div class="cards-wrapper">
+            <div class="card">
+              <h4 class="card-title">This is Card Title 1</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 2</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 3</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 4</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 5</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 6</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <h4 class="card-title">This is Card Title 7</h4>
+              <div class="card-image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="show-scroll-width">
+            <div class="scrolled-width"></div>
+          </div>
         </div>
-
-        <button class="action-btn">Get Free Trial</button>
-      </div>
-
-      <div class="horizontal-container" id="hWrapperContainer">
-        <div class="horizontal-card-wrapper" id="hCardWrapper">
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-          <div class="card">
-            <h4 class="card-title">This is Card Title</h4>
-            <div class="card-image"></div>
-          </div>
-        </div>
-        <div class="show-scroll-width"></div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <section class="spacer">Scroll up</section>
 
-    <script src="script.js"></script>
+    <script>
+      const scrollContainer = document.querySelector(".container");
+      const scrollWrapper = document.querySelector(
+        ".horizontal-scroll-wrapper"
+      );
+      const scrollWidthBar = document.querySelector(".scrolled-width");
+      const cardsWrapper = document.querySelector(".cards-wrapper");
+
+      const handleWindowScroll = () => {
+        const offsetTop = scrollWrapper.offsetTop;
+        const scrollTop = window.pageYOffset;
+        const wrapperHeight = scrollWrapper.offsetHeight;
+        const windowHeight = window.innerHeight;
+
+        let percentage =
+          ((scrollTop - offsetTop) / (wrapperHeight - windowHeight)) * 100;
+        percentage = Math.min(Math.max(percentage, 0), 100);
+
+        scrollWidthBar.style.width = `${percentage}%`;
+        const maxScroll =
+          cardsWrapper.scrollWidth - scrollContainer.clientWidth + 30;
+
+        if (maxScroll > 0) {
+          const translateX = (percentage / 100) * maxScroll;
+          cardsWrapper.style.transform = `translateX(-${translateX}px)`;
+        }
+      };
+
+      // set scroll wrapper height based on cards
+      const updateHeight = () => {
+        const totalCards = document.querySelectorAll(".card").length;
+        scrollWrapper.style.height = `${totalCards * 100}vh`;
+      };
+
+      window.addEventListener("load", updateHeight);
+      window.addEventListener("scroll", handleWindowScroll);
+      window.addEventListener("resize", () => {
+        updateHeight();
+        handleWindowScroll();
+      });
+    </script>
   </body>
 </html>
