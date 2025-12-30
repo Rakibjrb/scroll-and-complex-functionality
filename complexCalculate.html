@@ -644,7 +644,9 @@
               </div>
             </div>
 
-            <button class="calculate-btn">Calculate</button>
+            <button class="calculate-btn" onclick="handleCalculate()">
+              Calculate
+            </button>
           </div>
         </div>
 
@@ -660,7 +662,7 @@
                   <th>Unit Price</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="table-body">
                 <!-- <tr>
                   <td>Clipping Path</td>
                   <td>24 Hours</td>
@@ -676,7 +678,7 @@
             <div class="estimate-total-wrapper">
               <span class="estimate-total-label">Total Price Estimate:</span>
               <span class="estimate-total-amount" id="estimate-total-price"
-                >$5.00</span
+                >$0.00</span
               >
             </div>
             <button class="proceed-btn">Proceed to Next</button>
@@ -687,18 +689,30 @@
 
     <script>
       // input for calculation
-      const selectService = document.getElementById("select-service");
-      const ternaroundTime = document.getElementById("ternaroundTime");
-      const complexityButtons = document.querySelectorAll(".complexity-btn");
-      const quantityDisplay = document.getElementById("quantityCount");
-      const priceBadge = document.getElementById("price-badge");
-      const estTotalPrice = document.getElementById("estimate-total-price");
+      const selectService = document.getElementById("select-service"),
+        ternaroundTime = document.getElementById("ternaroundTime"),
+        complexityButtons = document.querySelectorAll(".complexity-btn"),
+        quantityDisplay = document.getElementById("quantityCount"),
+        priceBadge = document.getElementById("price-badge");
+
+      // output elements
+      const title = document.querySelector(".estimate-info-card-title"),
+        subtitle = document.querySelector(".subtitle-text"),
+        image = document.querySelector(".card-image"),
+        descriptionTitle = document.querySelector(".description-title"),
+        description = document.querySelector(".description-content");
+
+      // show table with content
+      const tableContainer = document.querySelector(".estimate-table-card"),
+        tableBody = document.querySelector(".table-body"),
+        estTotalPrice = document.getElementById("estimate-total-price");
 
       const allServices = [
         {
           name: "Clipping Path",
           simple: {
-            image: "",
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simplse.jpg",
             subtitle: "Per image clipping path (simple) starting at just...",
             timePrice: {
               h12: 0.41,
@@ -711,6 +725,8 @@
             },
           },
           medium: {
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simple.jpg",
             subtitle: "Per image clipping path (medium) starting at just...",
             timePrice: {
               h12: 2.09,
@@ -723,6 +739,8 @@
             },
           },
           complex: {
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Complex.jpg",
             subtitle: "Per image clipping path (complex) starting at just...",
             timePrice: {
               h12: 9.8,
@@ -738,58 +756,128 @@
         {
           name: "Background Removal",
           simple: {
-            subtitle: "Per image clipping path (simple) starting at just...",
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simpled.jpg",
+            subtitle:
+              "Per image background removal (simple) starting at just...",
             timePrice: {
               h12: 0.41,
               h24: 0.29,
               h48: 0.23,
             },
             description: {
-              title: "How do we define simple clipping path service?",
-              desc: "Simple clipping path means a single path with mostly straight curves since the focused object doesn’t have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as mobile, book, ball, plate, ring, egg, etc.",
+              title:
+                "How do we define simple image background removal service?",
+              desc: "Simple image background removal means a single path with mostly straight curves, solid body and simple shape since the focused object doesn't have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as a book, mobile, plate, ball, plate, ring, egg, etc.",
             },
           },
           medium: {
-            subtitle: "Per image clipping path (medium) starting at just...",
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Meddium.jpg",
+            subtitle:
+              "Per image background removal (medium) starting at just...",
             timePrice: {
               h12: 2.09,
               h24: 1.49,
               h48: 1.19,
             },
             description: {
-              title: "How do we define medium clipping path service?",
-              desc: "Medium clipping path means multiple paths and few holes inside with multiple curves. We consider medium clipping path when the working image has more anchor points than the simple clipping path. This service applied to bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods etc.",
+              title:
+                "How do we define medium image background removal service?",
+              desc: "Medium image background removal means multiple paths with mostly straight curves, solid body, few holes and little complex shape. This service applied to rectangular, round, and little curved shaped product images such as bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods, etc.",
             },
           },
           complex: {
-            subtitle: "Per image clipping path (complex) starting at just...",
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simpled.jpg",
+            subtitle:
+              "Per image background removal (complex) starting at just...",
             timePrice: {
               h12: 9.8,
               h24: 7.0,
               h48: 5.6,
             },
             description: {
-              title: "How do we define complex clipping path service?",
-              desc: "Complex clipping path means multiple paths and holes inside with compound and complex shapes, designs and many curves. We consider complex clipping path when the working image has more holes and anchor points than the medium clipping path. This service applied to various products such as furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
+              title:
+                "How do we define complex image background removal service?",
+              desc: "Complex image background removal means multiple paths with many curves, complex body shape and many inside holes. This service applied to rectangular, round, and complex curved shaped product images furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
+            },
+          },
+        },
+        {
+          name: "Color Correction",
+          simple: {
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simple-5.jpg",
+            subtitle: "Per color correction (simple) starting at just...",
+            timePrice: {
+              h12: 1.39,
+              h24: 0.99,
+              h48: 0.79,
+            },
+            description: {
+              title: "How do we define simple color correction service?",
+              desc: "Simple color correction means a single color correction with mostly one texture. It is suitable for one color image. Let us know your custom color and we will do it for you.",
+            },
+          },
+          medium: {
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/medium.jpg",
+            subtitle: "Per color correction (medium) starting at just...",
+            timePrice: {
+              h12: 2.79,
+              h24: 1.99,
+              h48: 1.59,
+            },
+            description: {
+              title: "How do we define medium color correction service?",
+              desc: "Medium color correction means multiple color correction with multiple textures. It is suitable for mix coloured image. Let us know your required colors and we will do it for you.",
+            },
+          },
+          complex: {
+            image:
+              "https://offshoreclipping.com/wp-content/uploads/2024/08/COPLEX.jpg",
+            subtitle:
+              "Per photo color correction (complex) starting at just...",
+            timePrice: {
+              h12: 3.5,
+              h24: 2.5,
+              h48: 2.0,
+            },
+            description: {
+              title: "How do we define a complex color correction service?",
+              desc: "Complex color correction means fixing different exposures on the model or product. It requires discovering the dull color from models skin or products and make them look realistic. Such color correction works require more time to separate different color layer and fix them accordingly.",
             },
           },
         },
       ];
 
-      // state variables
+      // global variables
+      const ternTimeFormat = {
+        h12: "12h",
+        h24: "24h",
+        h48: "48h",
+      };
+
+      // global state variables
       let quantity = parseInt(quantityDisplay.innerText);
       let complexity = "simple";
       let ternTime = "h12";
-      let service = allServices[0].name;
+      let service = allServices[0]?.name;
+      let selectedTernPrice = allServices[0]?.simple?.timePrice?.h12;
+      let showTable = false;
+      const tableData = [];
+      let data = {};
 
       // render dynamic service option
       {
-        allServices.forEach((serviceOption) => {
-          const option = document.createElement("option");
-          option.innerText = serviceOption.name;
-          option.value = serviceOption.name;
-          selectService.appendChild(option);
-        });
+        if (allServices.length)
+          allServices.forEach((serviceOption) => {
+            const option = document.createElement("option");
+            option.innerText = serviceOption.name;
+            option.value = serviceOption.name;
+            selectService.appendChild(option);
+          });
       }
 
       // set complexity functions
@@ -825,17 +913,60 @@
 
       function increaseQuantity() {
         quantityDisplay.innerText = quantity += 1;
+        handleContent();
       }
 
       function decreaseQuantity() {
         if (quantity > 1) {
           quantityDisplay.innerText = quantity -= 1;
+          handleContent();
         }
       }
 
       function handleContent() {
-        console.log(complexity, ternTime, service);
+        const selectedComplexity = allServices.find(
+          (item) => item.name === service
+        )[complexity]; // find selected complexity
+
+        data = {
+          name: service,
+          time: ternTimeFormat[ternTime],
+          complexity,
+          quantity,
+          unitPrice: selectedComplexity.timePrice[ternTime].toFixed(2),
+        };
+
+        title.innerText = service; // show selected service name
+        subtitle.innerText = selectedComplexity.subtitle; // show selected complexity subtitle
+        image.src = selectedComplexity.image; // show image of selected complexity
+        descriptionTitle.innerText = selectedComplexity.description.title; // show selected complexity description title
+        description.innerText = selectedComplexity.description.desc; // show selected complexity descrption content
+        priceBadge.innerText = `${data.unitPrice}$`; // show price of selected spacific terms
       }
+
+      // render table and calculate total price when clicked on calculate button
+      {
+        let totalPrice = 0.0;
+
+        function handleCalculate() {
+          tableData.push(data);
+          tableBody.innerHTML = ``;
+          tableData.forEach((td) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${td.name}</td> <td>${td.time}</td> <td>${td.complexity}</td> <td>${td.quantity}</td> <td>$${td.unitPrice}</td>`;
+            tableBody.appendChild(tr);
+          });
+          tableContainer.style.display = ""; //show table
+
+          // calculate total price
+          totalPrice = data.quantity * data.unitPrice + totalPrice;
+
+          estTotalPrice.innerText = `$${totalPrice.toFixed(2)}`; //show total price
+        }
+      }
+
+      tableContainer.style.display = "none"; // default hide table
+      handleContent(); // show default values
     </script>
   </body>
 </html>
