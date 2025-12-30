@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 1440px;
+        margin: 0 auto;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .price-estimate-section {
+        padding: 32px;
+        background-color: #eff3fc;
+        border-radius: 24px;
+      }
+
+      .price-estimate-container {
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: start;
+        gap: 40px;
+      }
+
+      .left-section {
+        flex: 1;
+      }
+      .right-section {
+        flex: 1;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .price-estimate-container {
+          flex-direction: column;
+        }
+      }
+
+      .estimate-info-card {
+        width: 100%;
+      }
+
+      .estimate-info-card-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 12px 0;
+      }
+
+      .subtitle-with-price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 20px;
+      }
+
+      .subtitle-price-badge {
+        background-color: #f1f5f9;
+        color: #2563eb;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        border: 1px solid #0f77ff;
+      }
+
+      .image-container {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .card-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+
+      .description-section {
+        text-align: left;
+      }
+
+      .description-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+
+      .description-content {
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.6;
+      }
+
+      /* range slider section*/
+      .range-slider-container {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+
+      .range-slider-container h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 12px;
+        margin-top: 0;
+      }
+
+      .range-slider-input {
+        width: 100%;
+        margin: 25px 0 10px 0;
+        cursor: pointer;
+        accent-color: #2563eb;
+      }
+
+      .range-slider-labels {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .range-slider-label-item {
+        font-size: 13px;
+        color: #64748b;
+        line-height: 1.4;
+        flex: 1;
+      }
+
+      .range-slider-label-item {
+        font-size: 18px;
+      }
+      .range-slider-label-item:nth-child(2) {
+        text-align: center;
+      }
+
+      .range-slider-label-item:last-child {
+        text-align: right;
+      }
+
+      /* .range-slider-display {
+        margin-top: 25px;
+        font-size: 16px;
+        color: #334155;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 15px;
+      } */
+
+      .range-slider-value {
+        font-weight: bold;
+        color: #2563eb;
+      }
+
+      /*complexity selection section*/
+      .complexity-card {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+
+      .complexity-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 12px;
+        margin-top: 0;
+      }
+
+      .complexity-button-group {
+        display: flex;
+        gap: 60px;
+      }
+
+      @media screen and (max-width: 767px) {
+        .complexity-button-group{
+            gap: 20px;
+        }
+      }
+
+      .complexity-btn {
+        flex: 1;
+        border: none;
+        background: #fff;
+        padding: 14px 15px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #64748b;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.2s ease;
+        background-color: #ffffff;
+      }
+
+      /* .complexity-btn:hover {
+        color: #1e293b;
+      } */
+
+      .complexity-active {
+        background-color: rgb(202, 202, 255);
+        color: #2e70ff;
+      }
+
+      /*quantitley selection*/
+      .quantity-card {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+
+      .quantity-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 12px;
+        margin-top: 0;
+      }
+
+      .quantity-control-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f8fafc;
+        padding: 8px 18px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .quantity-btn {
+        width: 25px;
+        height: 25px;
+        background-color: #ffffff;
+        color: #2563eb;
+        font-size: 20px;
+        border: 1px solid #2563eb;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .quantity-btn:hover {
+        background-color: #2563eb;
+        color: white;
+      }
+
+      .quantity-btn:active {
+        transform: scale(0.95);
+      }
+
+      .quantity-display {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e293b;
+        min-width: 40px;
+      }
+
+      /*calculate button design*/
+      .calculate-btn {
+        width: 100%;
+        position: relative;
+        background-color: blue;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        padding: 14px 40px;
+        border-radius: 50px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: color 0.4s ease;
+        z-index: 1;
+        border: none;
+      }
+
+      .proceed-btn {
+        width: 220px;
+        position: relative;
+        background-color: blue;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 14px 40px;
+        border-radius: 50px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: color 0.4s ease;
+        z-index: 1;
+        border: none;
+      }
+
+      .calculate-btn::before , .proceed-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 0;
+        height: 100%;
+        background-color: #1a48ac;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
+        transform: translateX(-50%);
+        border: none;
+      }
+
+      .calculate-btn:hover::before, .proceed-btn:hover::before {
+        width: 100%;
+      }
+
+      .calculate-text {
+        position: relative;
+        z-index: 2;
+      }
+
+      /*show available servervices for selection*/
+      .services {
+        width: 100%;
+        margin-bottom: 32px;
+      }
+
+      .services h4 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 12px;
+        margin-top: 0;
+      }
+
+      .available-services {
+        width: 100%; /* ফুল উইডথ */
+        padding: 12px 15px; /* ইনসাইড প্যাডিং */
+        font-size: 16px;
+        color: #475569;
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); /* কাস্টম অ্যারো আইকন */
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 18px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .available-services:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .available-services option {
+        padding: 10px;
+      }
+
+      .estimate-table-card {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+        box-sizing: border-box;
+        margin-top: 50px;
+      }
+
+      .estimate-responsive-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 30px;
+      }
+
+      .estimate-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      .estimate-table th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 15px;
+        border-bottom: 2px solid #e2e8f0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .estimate-table td {
+        padding: 15px;
+        color: #1e293b;
+        font-size: 15px;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      .estimate-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 30px;
+        border-top: 2px solid #f1f5f9;
+        padding-top: 20px;
+      }
+      .estimate-total-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .estimate-total-label {
+        font-size: 16px;
+        color: #64748b;
+      }
+
+      .estimate-total-amount {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2563eb;
+      }
+
+      .estimate-proceed-btn {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .estimate-proceed-btn:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+
+      .estimate-proceed-btn:active {
+        transform: translateY(0);
+      }
+
+      @media (max-width: 600px) {
+        .estimate-footer {
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="price-estimate-section">
+        <!-- main price estimate section -->
+
+        <div class="price-estimate-container">
+          <!-- left side => card view -->
+          <div class="left-section">
+            <div class="estimate-info-card">
+              <h2 class="estimate-info-card-title">Clipping Path</h2>
+
+              <div class="subtitle-with-price">
+                <span class="subtitle-text"
+                  >Per image clipping path (simple) starting at just</span
+                >
+                <div class="subtitle-price-badge">0.29$</div>
+              </div>
+
+              <div class="image-container">
+                <img
+                  class="card-image"
+                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
+                  alt="card image"
+                />
+              </div>
+
+              <div class="description-section">
+                <h3 class="description-title">
+                  How do we define simple clipping path service?
+                </h3>
+
+                <p class="description-content">
+                  Simple clipping path means a single path with mostly straight
+                  curves since the focused object doesn’t have any hole inside.
+                  This service applied to rectangular, round, and small curved
+                  shaped product images such as mobile, book, ball, plate, ring,
+                  egg, etc.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- right section => functional section -->
+          <div class="right-section">
+            <div class="services">
+              <h4>Services</h4>
+              <select class="available-services">
+                <option>Service 1</option>
+                <option>Service 2</option>
+                <option>Service 3</option>
+              </select>
+            </div>
+
+            <div class="range-slider-container">
+              <h3 style="margin: 0">Turnaround Time</h3>
+
+              <input
+                type="range"
+                min="1"
+                max="3"
+                step="1"
+                value="1"
+                class="range-slider-input"
+                id="prioritySlider"
+              />
+
+              <div class="range-slider-labels">
+                <div class="range-slider-label-item">12h</div>
+                <div class="range-slider-label-item">24h</div>
+                <div class="range-slider-label-item">48h</div>
+              </div>
+            </div>
+
+            <div class="complexity-card">
+              <div class="complexity-title">Complexity</div>
+
+              <div class="complexity-button-group">
+                <button
+                  class="complexity-btn complexity-active"
+                  onclick="selectComplexity(this)"
+                >
+                  Simple
+                </button>
+                <button class="complexity-btn" onclick="selectComplexity(this)">
+                  Medium
+                </button>
+                <button class="complexity-btn" onclick="selectComplexity(this)">
+                  Complex
+                </button>
+              </div>
+            </div>
+
+            <div class="quantity-card">
+              <div class="quantity-title">Quantity</div>
+
+              <div class="quantity-control-group">
+                <button class="quantity-btn" onclick="updateQuantity(-1)">
+                  −
+                </button>
+
+                <div class="quantity-display" id="quantityCount">1</div>
+
+                <button class="quantity-btn" onclick="updateQuantity(1)">
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button class="calculate-btn">Calculate</button>
+          </div>
+        </div>
+
+        <div class="estimate-table-card">
+          <div class="estimate-responsive-wrapper">
+            <table class="estimate-table">
+              <thead>
+                <tr>
+                  <th>Service Name</th>
+                  <th>Turnaround Time</th>
+                  <th>Complexity</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Clipping Path</td>
+                  <td>24 Hours</td>
+                  <td>Medium</td>
+                  <td>10</td>
+                  <td>$0.50</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="estimate-footer">
+            <div class="estimate-total-wrapper">
+              <span class="estimate-total-label">Total Price Estimate:</span>
+              <span class="estimate-total-amount">$5.00</span>
+            </div>
+            <button class="proceed-btn">Proceed to Next</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const slider = document.getElementById("prioritySlider");
+      const output = document.getElementById("selectedValue");
+
+      // ভ্যালু কনফিগারেশন
+      const statusMap = {
+        1: "High (12h)",
+        2: "Medium (24h)",
+        3: "Low (48h)",
+      };
+
+      slider.oninput = function () {
+        output.textContent = statusMap[this.value];
+      };
+
+      function selectComplexity(element) {
+        document.querySelectorAll(".complexity-btn").forEach((btn) => {
+          btn.classList.remove("complexity-active");
+        });
+        element.classList.add("complexity-active");
+      }
+
+      function updateQuantity(change) {
+        const display = document.getElementById("quantityCount");
+        let currentCount = parseInt(display.innerText);
+
+        // সংখ্যা যেন ১ এর নিচে না যায়
+        if (currentCount + change >= 1) {
+          display.innerText = currentCount + change;
+        }
+      }
+    </script>
+  </body>
+</html>
