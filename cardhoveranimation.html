@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card hover animation</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .unique-card-container {
+        width: 100%;
+        max-width: 1280px;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      .unique-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+
+      .unique-card {
+        overflow: hidden;
+      }
+
+      .unique-card-details {
+        text-align: center;
+        padding-top: 12px;
+      }
+
+      .unique-card-title {
+        margin-bottom: 12px;
+        font-size: 20px;
+      }
+
+      .unique-card-image-container {
+        position: relative;
+        padding: 10px;
+        width: 100%;
+        height: 280px;
+      }
+
+      .unique-card-image {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .image-border {
+        position: absolute;
+        bottom: 0%;
+        left: 0;
+        width: 100%;
+        height: 80%;
+        border: 10px solid rgb(255, 230, 0);
+        transition: all 0.2s ease-in-out;
+        z-index: 0;
+      }
+
+      .image-background-on-hover {
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0000004f;
+      }
+
+      .unique-card:hover .image-border {
+        bottom: -100%;
+        opacity: 10%;
+      }
+
+      .unique-card:hover .image-background-on-hover {
+        top: 0%;
+        transition: all 0.2s ease-in;
+      }
+
+      /* tablet */
+      @media (max-width: 1024px) {
+        .unique-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* mobile */
+      @media (max-width: 640px) {
+        .unique-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .unique-card-image-container {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="unique-card-container">
+      <div class="unique-cards">
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+        <div class="unique-card">
+          <div class="unique-card-image-container">
+            <div class="image-border"></div>
+            <img
+              src="https://www.jewelryediting.com/wp-content/uploads/2022/11/necklace.png"
+              alt="unique card image"
+              class="unique-card-image"
+            />
+            <div class="image-background-on-hover"></div>
+          </div>
+          <div class="unique-card-details">
+            <h3 class="unique-card-title">Ring Editing Services</h3>
+            <div class="unique-card-short-description">
+              Jewelry Editing Services as a company works to make this ride
+              hassle-free and remarkable for each of our clients.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
