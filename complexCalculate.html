@@ -1,981 +1,633 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
 
-      .container {
-        max-width: 1440px;
-        margin: 0 auto;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .price-estimate-section {
+      padding: 32px;
+      background-color: #eff3fc;
+      border-radius: 24px;
+    }
+
+    .price-estimate-container {
+      width: 100%;
+      height: auto;
+      display: flex;
+      align-items: start;
+      gap: 40px;
+    }
+
+    .left-section {
+      flex: 1;
+      width: 100%;
+    }
+
+    .right-section {
+      flex: 1;
+      width: 100%;
+    }
+
+    .estimate-info-card {
+      width: 100%;
+    }
+
+    .estimate-info-card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 12px 0;
+    }
+
+    .subtitle-with-price {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    .subtitle-price-badge {
+      background-color: #f1f5f9;
+      color: #2563eb;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      border: 1px solid #0f77ff;
+    }
+
+    .image-container {
+      width: 100%;
+      height: 340px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+
+    /* range slider section*/
+    .range-slider-container {
+      width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .range-slider-container h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+
+    .range-slider-input {
+      width: 100%;
+      margin: 25px 0 10px 0;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
+    .range-slider-labels {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .range-slider-label-item {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .range-slider-label-item {
+      font-size: 18px;
+    }
+
+    .range-slider-label-item:nth-child(2) {
+      text-align: center;
+    }
+
+    .range-slider-label-item:last-child {
+      text-align: right;
+    }
+
+
+    /*complexity selection section*/
+    .complexity-card {
+      width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .complexity-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+
+    .complexity-button-group {
+      display: flex;
+      gap: 60px;
+    }
+
+    .complexity-btn {
+      flex: 1;
+      border: none;
+      background: #fff;
+      padding: 14px 15px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.2s ease;
+      background-color: #ffffff;
+    }
+
+
+    .complexity-active {
+      background-color: #e5eef7;
+      color: #2e70ff;
+    }
+
+    /*quantitley selection*/
+
+    /*calculate button design*/
+    .calculate-btn {
+      width: 100%;
+      position: relative;
+      background-color: blue;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 600;
+      padding: 14px 40px;
+      border-radius: 50px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: color 0.4s ease;
+      z-index: 1;
+      border: none;
+    }
+
+
+    .calculate-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 100%;
+      background-color: #1a48ac;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+      transform: translateX(-50%);
+      border: none;
+    }
+
+    .calculate-btn:hover::before {
+      width: 100%;
+    }
+
+
+    /*show available servervices for selection*/
+    .services {
+      width: 100%;
+      margin-bottom: 32px;
+    }
+
+    .services h4 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      margin-top: 0;
+    }
+
+    .available-services {
+      width: 100%;
+      /* ফুল উইডথ */
+      padding: 12px 15px;
+      /* ইনসাইড প্যাডিং */
+      font-size: 16px;
+      color: #475569;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      /* কাস্টম অ্যারো আইকন */
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .available-services:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .available-services option {
+      padding: 10px;
+    }
+
+
+    @media (max-width: 768px) {
+      .price-estimate-container {
+        flex-direction: column;
       }
 
       .price-estimate-section {
-        padding: 32px;
-        background-color: #eff3fc;
-        border-radius: 24px;
+        padding: 16px;
+        border-radius: 16px;
       }
 
       .price-estimate-container {
-        width: 100%;
-        height: auto;
-        display: flex;
-        align-items: start;
-        gap: 40px;
-      }
-
-      .left-section {
-        flex: 1;
-        width: 100%;
-      }
-      .right-section {
-        flex: 1;
-        width: 100%;
-      }
-
-      .estimate-info-card {
-        width: 100%;
+        gap: 24px;
       }
 
       .estimate-info-card-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #1e293b;
-        margin: 0 0 12px 0;
+        font-size: 20px;
       }
 
       .subtitle-with-price {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 14px;
-        color: #64748b;
-        margin-bottom: 20px;
-      }
-
-      .subtitle-price-badge {
-        background-color: #f1f5f9;
-        color: #2563eb;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-weight: 600;
-        border: 1px solid #0f77ff;
+        flex-wrap: wrap;
+        font-size: 13px;
       }
 
       .image-container {
-        width: 100%;
-        height: 400px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
-      }
-
-      .card-image {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover;
-      }
-
-      .description-section {
-        text-align: left;
+        height: 260px;
       }
 
       .description-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #334155;
-        margin-bottom: 8px;
-        line-height: 1.4;
+        font-size: 16px;
       }
 
       .description-content {
-        font-size: 14px;
-        color: #475569;
-        line-height: 1.6;
-      }
-
-      /* range slider section*/
-      .range-slider-container {
-        width: 100%;
-        margin-bottom: 32px;
-      }
-
-      .range-slider-container h3 {
-        font-size: 20px;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 12px;
-        margin-top: 0;
-      }
-
-      .range-slider-input {
-        width: 100%;
-        margin: 25px 0 10px 0;
-        cursor: pointer;
-        accent-color: #2563eb;
-      }
-
-      .range-slider-labels {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .range-slider-label-item {
         font-size: 13px;
-        color: #64748b;
-        line-height: 1.4;
-        flex: 1;
       }
 
-      .range-slider-label-item {
+      .range-slider-container h3,
+      .complexity-title,
+      .services h4 {
         font-size: 18px;
-      }
-      .range-slider-label-item:nth-child(2) {
-        text-align: center;
-      }
-
-      .range-slider-label-item:last-child {
-        text-align: right;
-      }
-
-      /* .range-slider-display {
-        margin-top: 25px;
-        font-size: 16px;
-        color: #334155;
-        border-top: 1px solid #e2e8f0;
-        padding-top: 15px;
-      } */
-
-      .range-slider-value {
-        font-weight: bold;
-        color: #2563eb;
-      }
-
-      /*complexity selection section*/
-      .complexity-card {
-        width: 100%;
-        margin-bottom: 32px;
-      }
-
-      .complexity-title {
-        font-size: 20px;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 12px;
-        margin-top: 0;
-      }
-
-      .complexity-button-group {
-        display: flex;
-        gap: 60px;
       }
 
       .complexity-btn {
-        flex: 1;
-        border: none;
-        background: #fff;
-        padding: 14px 15px;
-        font-size: 18px;
-        font-weight: 500;
-        color: #64748b;
-        cursor: pointer;
-        border-radius: 50px;
-        transition: all 0.2s ease;
-        background-color: #ffffff;
+        font-size: 16px;
+        padding: 12px;
       }
 
-      /* .complexity-btn:hover {
-        color: #1e293b;
-      } */
 
-      .complexity-active {
-        background-color: #e5eef7;
-        color: #2e70ff;
-      }
-
-      /*quantitley selection*/
-      .quantity-card {
-        width: 100%;
-        margin-bottom: 32px;
-      }
-
-      .quantity-title {
-        font-size: 20px;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 12px;
-        margin-top: 0;
-      }
-
-      .quantity-control-group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #f8fafc;
-        padding: 8px 18px;
-        border-radius: 10px;
-        border: 1px solid #e2e8f0;
-      }
-
-      .quantity-btn {
-        width: 25px;
-        height: 25px;
-        background-color: #ffffff;
-        color: #2563eb;
-        font-size: 20px;
-        border: 1px solid #2563eb;
-        border-radius: 50%;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-      }
-
-      .quantity-btn:hover {
-        background-color: #2563eb;
-        color: white;
-      }
-
-      .quantity-btn:active {
-        transform: scale(0.95);
-      }
-
-      .quantity-display {
-        font-size: 18px;
-        font-weight: 700;
-        color: #1e293b;
-        min-width: 40px;
-      }
-
-      /*calculate button design*/
       .calculate-btn {
-        width: 100%;
-        position: relative;
-        background-color: blue;
-        color: #fff;
-        font-size: 24px;
-        font-weight: 600;
-        padding: 14px 40px;
-        border-radius: 50px;
-        cursor: pointer;
-        overflow: hidden;
-        transition: color 0.4s ease;
-        z-index: 1;
-        border: none;
-      }
-
-      .proceed-btn {
-        width: 220px;
-        position: relative;
-        background-color: blue;
-        color: #fff;
-        font-size: 16px;
-        font-weight: 600;
-        padding: 14px 40px;
-        border-radius: 50px;
-        cursor: pointer;
-        overflow: hidden;
-        transition: color 0.4s ease;
-        z-index: 1;
-        border: none;
-      }
-
-      .calculate-btn::before,
-      .proceed-btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 0;
-        height: 100%;
-        background-color: #1a48ac;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: -1;
-        transform: translateX(-50%);
-        border: none;
-      }
-
-      .calculate-btn:hover::before,
-      .proceed-btn:hover::before {
-        width: 100%;
-      }
-
-      .calculate-text {
-        position: relative;
-        z-index: 2;
-      }
-
-      /*show available servervices for selection*/
-      .services {
-        width: 100%;
-        margin-bottom: 32px;
-      }
-
-      .services h4 {
         font-size: 20px;
-        font-weight: 600;
-        color: #1e293b;
-        margin-bottom: 12px;
-        margin-top: 0;
+        padding: 12px 30px;
       }
 
-      .available-services {
-        width: 100%; /* ফুল উইডথ */
-        padding: 12px 15px; /* ইনসাইড প্যাডিং */
-        font-size: 16px;
-        color: #475569;
-        background-color: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 8px;
-        outline: none;
-        cursor: pointer;
-        appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); /* কাস্টম অ্যারো আইকন */
-        background-repeat: no-repeat;
-        background-position: right 15px center;
-        background-size: 18px;
-        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    @media (max-width: 480px) {
+      .complexity-button-group {
+        flex-direction: column;
+        gap: 12px;
       }
 
-      .available-services:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-      }
-
-      .available-services option {
-        padding: 10px;
-      }
-
-      .estimate-table-card {
-        width: 100%;
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        padding: 16px;
-        box-sizing: border-box;
-        margin-top: 50px;
-      }
-
-      .estimate-responsive-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        margin-bottom: 30px;
-      }
-
-      .estimate-table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-      }
-
-      .estimate-table th {
-        background-color: #f8fafc;
-        color: #217af7;
+      .range-slider-label-item {
         font-size: 14px;
-        font-weight: bolder;
-        padding: 15px;
-        border-bottom: 2px solid #e2e8f0;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
       }
 
-      .estimate-table td {
-        padding: 15px;
-        color: #1e293b;
-        font-size: 15px;
-        border-bottom: 1px solid #f1f5f9;
-      }
 
-      .estimate-footer {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 30px;
-        border-top: 2px solid #f1f5f9;
-        padding-top: 20px;
-      }
-      .estimate-total-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+    }
+  </style>
+</head>
 
-      .estimate-total-label {
-        font-size: 16px;
-        color: #64748b;
-      }
+<body>
+  <div class="container">
+    <section class="price-estimate-section">
+      <!-- main price estimate section -->
 
-      .estimate-total-amount {
-        font-size: 24px;
-        font-weight: 700;
-        color: #2563eb;
-      }
+      <div class="price-estimate-container">
+        <!-- left side => card view -->
+        <div class="left-section">
+          <div class="estimate-info-card">
+            <h2 class="estimate-info-card-title">Clipping Path</h2>
 
-      .estimate-proceed-btn {
-        background-color: #2563eb;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .estimate-proceed-btn:hover {
-        background-color: #1d4ed8;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-      }
-
-      .estimate-proceed-btn:active {
-        transform: translateY(0);
-      }
-
-      @media (max-width: 600px) {
-        .estimate-footer {
-          flex-direction: column;
-          align-items: flex-end;
-          gap: 15px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .price-estimate-container {
-          flex-direction: column;
-        }
-        .price-estimate-section {
-          padding: 16px;
-          border-radius: 16px;
-        }
-
-        .price-estimate-container {
-          gap: 24px;
-        }
-
-        .estimate-info-card-title {
-          font-size: 20px;
-        }
-
-        .subtitle-with-price {
-          flex-wrap: wrap;
-          font-size: 13px;
-        }
-
-        .image-container {
-          height: 260px;
-        }
-
-        .description-title {
-          font-size: 16px;
-        }
-
-        .description-content {
-          font-size: 13px;
-        }
-
-        .range-slider-container h3,
-        .complexity-title,
-        .quantity-title,
-        .services h4 {
-          font-size: 18px;
-        }
-
-        .complexity-btn {
-          font-size: 16px;
-          padding: 12px;
-        }
-
-        .quantity-display {
-          font-size: 16px;
-        }
-
-        .calculate-btn {
-          font-size: 20px;
-          padding: 12px 30px;
-        }
-
-        .estimate-table th,
-        .estimate-table td {
-          font-size: 13px;
-          padding: 10px;
-        }
-
-        .estimate-total-amount {
-          font-size: 20px;
-        }
-
-        .proceed-btn {
-          width: 100%;
-        }
-      }
-      @media (max-width: 480px) {
-        .complexity-button-group {
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .range-slider-label-item {
-          font-size: 14px;
-        }
-
-        .quantity-control-group {
-          padding: 8px 12px;
-        }
-
-        .estimate-footer {
-          align-items: stretch;
-        }
-
-        .estimate-total-wrapper {
-          justify-content: space-between;
-          width: 100%;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <section class="price-estimate-section">
-        <!-- main price estimate section -->
-
-        <div class="price-estimate-container">
-          <!-- left side => card view -->
-          <div class="left-section">
-            <div class="estimate-info-card">
-              <h2 class="estimate-info-card-title">Clipping Path</h2>
-
-              <div class="subtitle-with-price">
-                <span class="subtitle-text"
-                  >Per image clipping path (simple) starting at just</span
-                >
-                <div class="subtitle-price-badge" id="price-badge">0.29$</div>
-              </div>
-
-              <div class="image-container">
-                <img
-                  class="card-image"
-                  src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg"
-                  alt="card image"
-                />
-              </div>
-
-              <div class="description-section">
-                <h3 class="description-title">
-                  How do we define simple clipping path service?
-                </h3>
-
-                <p class="description-content">
-                  Simple clipping path means a single path with mostly straight
-                  curves since the focused object doesn’t have any hole inside.
-                  This service applied to rectangular, round, and small curved
-                  shaped product images such as mobile, book, ball, plate, ring,
-                  egg, etc.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- right section => functional section -->
-          <div class="right-section">
-            <div class="services">
-              <h4>Services</h4>
-              <select class="available-services" id="select-service"></select>
+            <div class="subtitle-with-price">
+              <span class="subtitle-text">Per image clipping path (simple) starting at just</span>
+              <div class="subtitle-price-badge" id="price-badge">0.29$</div>
             </div>
 
-            <div class="range-slider-container">
-              <h3 style="margin: 0">Turnaround Time</h3>
-
-              <input
-                type="range"
-                min="1"
-                max="3"
-                step="1"
-                value="1"
-                class="range-slider-input"
-                id="ternaroundTime"
-              />
-
-              <div class="range-slider-labels">
-                <div class="range-slider-label-item">12h</div>
-                <div class="range-slider-label-item">24h</div>
-                <div class="range-slider-label-item">48h</div>
-              </div>
+            <div class="image-container">
+              <img class="card-image" src="https://i.ibb.co.com/TcxkJy9/redcar3.jpg" alt="card image" />
             </div>
-
-            <div class="complexity-card">
-              <div class="complexity-title">Complexity</div>
-
-              <div class="complexity-button-group">
-                <button class="complexity-btn complexity-active" value="simple">
-                  Simple
-                </button>
-                <button class="complexity-btn" value="medium">Medium</button>
-                <button class="complexity-btn" value="complex">Complex</button>
-              </div>
-            </div>
-
-            <div class="quantity-card">
-              <div class="quantity-title">Quantity</div>
-
-              <div class="quantity-control-group">
-                <button class="quantity-btn" onclick="decreaseQuantity()">
-                  −
-                </button>
-
-                <div class="quantity-display" id="quantityCount">1</div>
-
-                <button class="quantity-btn" onclick="increaseQuantity()">
-                  +
-                </button>
-              </div>
-            </div>
-
-            <button class="calculate-btn" onclick="handleCalculate()">
-              Calculate
-            </button>
           </div>
         </div>
 
-        <div class="estimate-table-card">
-          <div class="estimate-responsive-wrapper">
-            <table class="estimate-table">
-              <thead>
-                <tr>
-                  <th>Service Name</th>
-                  <th>Turnaround Time</th>
-                  <th>Complexity</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <!-- <tr>
-                  <td>Clipping Path</td>
-                  <td>24 Hours</td>
-                  <td>Medium</td>
-                  <td>10</td>
-                  <td>$0.50</td>
-                </tr> -->
-              </tbody>
-            </table>
+        <!-- right section => functional section -->
+        <div class="right-section">
+          <div class="services">
+            <h4>Services</h4>
+            <select class="available-services" id="select-service"></select>
           </div>
 
-          <div class="estimate-footer">
-            <div class="estimate-total-wrapper">
-              <span class="estimate-total-label">Total Price Estimate:</span>
-              <span class="estimate-total-amount" id="estimate-total-price"
-                >$0.00</span
-              >
+          <div class="range-slider-container">
+            <h3 style="margin: 0">Turnaround Time</h3>
+
+            <input type="range" min="1" max="3" step="1" value="1" class="range-slider-input" id="ternaroundTime" />
+
+            <div class="range-slider-labels">
+              <div class="range-slider-label-item">12h</div>
+              <div class="range-slider-label-item">24h</div>
+              <div class="range-slider-label-item">48h</div>
             </div>
-            <button
-              class="proceed-btn"
-              onclick="redirectToNext('https://photoedite.com/contact/')"
-            >
-              Proceed to Next
-            </button>
           </div>
+
+          <div class="complexity-card">
+            <div class="complexity-title">Complexity</div>
+
+            <div class="complexity-button-group">
+              <button class="complexity-btn complexity-active" value="simple">
+                Simple
+              </button>
+              <button class="complexity-btn" value="medium">Medium</button>
+              <button class="complexity-btn" value="complex">Complex</button>
+            </div>
+          </div>
+
+          <button class="calculate-btn" onclick="redirectToNext('https://photoedite.com/contact/')">
+            Calculate
+          </button>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  </div>
 
-    <script>
-      // input for calculation
-      const selectService = document.getElementById("select-service"),
-        ternaroundTime = document.getElementById("ternaroundTime"),
-        complexityButtons = document.querySelectorAll(".complexity-btn"),
-        quantityDisplay = document.getElementById("quantityCount"),
-        priceBadge = document.getElementById("price-badge");
+  <script>
+    // input for calculation
+    const selectService = document.getElementById("select-service"),
+      ternaroundTime = document.getElementById("ternaroundTime"),
+      complexityButtons = document.querySelectorAll(".complexity-btn"),
+      priceBadge = document.getElementById("price-badge");
 
-      // output elements
-      const title = document.querySelector(".estimate-info-card-title"),
-        subtitle = document.querySelector(".subtitle-text"),
-        image = document.querySelector(".card-image"),
-        descriptionTitle = document.querySelector(".description-title"),
-        description = document.querySelector(".description-content");
+    // output elements
+    const title = document.querySelector(".estimate-info-card-title"),
+      subtitle = document.querySelector(".subtitle-text"),
+      image = document.querySelector(".card-image");
 
-      // show table with content
-      const tableContainer = document.querySelector(".estimate-table-card"),
-        tableBody = document.querySelector(".table-body"),
-        estTotalPrice = document.getElementById("estimate-total-price");
-
-      const allServices = [
-        {
-          name: "Clipping Path",
-          simple: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simplse.jpg",
-            subtitle: "Per image clipping path (simple) starting at just...",
-            timePrice: {
-              h12: 0.41,
-              h24: 0.29,
-              h48: 0.23,
-            },
-            description: {
-              title: "How do we define simple clipping path service?",
-              desc: "Simple clipping path means a single path with mostly straight curves since the focused object doesn’t have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as mobile, book, ball, plate, ring, egg, etc.",
-            },
-          },
-          medium: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simple.jpg",
-            subtitle: "Per image clipping path (medium) starting at just...",
-            timePrice: {
-              h12: 2.09,
-              h24: 1.49,
-              h48: 1.19,
-            },
-            description: {
-              title: "How do we define medium clipping path service?",
-              desc: "Medium clipping path means multiple paths and few holes inside with multiple curves. We consider medium clipping path when the working image has more anchor points than the simple clipping path. This service applied to bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods etc.",
-            },
-          },
-          complex: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Complex.jpg",
-            subtitle: "Per image clipping path (complex) starting at just...",
-            timePrice: {
-              h12: 9.8,
-              h24: 7.0,
-              h48: 5.6,
-            },
-            description: {
-              title: "How do we define complex clipping path service?",
-              desc: "Complex clipping path means multiple paths and holes inside with compound and complex shapes, designs and many curves. We consider complex clipping path when the working image has more holes and anchor points than the medium clipping path. This service applied to various products such as furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
-            },
-          },
-        },
-        {
-          name: "Background Removal",
-          simple: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simpled.jpg",
-            subtitle:
-              "Per image background removal (simple) starting at just...",
-            timePrice: {
-              h12: 0.41,
-              h24: 0.29,
-              h48: 0.23,
-            },
-            description: {
-              title:
-                "How do we define simple image background removal service?",
-              desc: "Simple image background removal means a single path with mostly straight curves, solid body and simple shape since the focused object doesn't have any hole inside. This service applied to rectangular, round, and small curved shaped product images such as a book, mobile, plate, ball, plate, ring, egg, etc.",
-            },
-          },
-          medium: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Meddium.jpg",
-            subtitle:
-              "Per image background removal (medium) starting at just...",
-            timePrice: {
-              h12: 2.09,
-              h24: 1.49,
-              h48: 1.19,
-            },
-            description: {
-              title:
-                "How do we define medium image background removal service?",
-              desc: "Medium image background removal means multiple paths with mostly straight curves, solid body, few holes and little complex shape. This service applied to rectangular, round, and little curved shaped product images such as bracelets, group watch, group shoes, group rings, motor parts, double shoes, group foods, etc.",
-            },
-          },
-          complex: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simpled.jpg",
-            subtitle:
-              "Per image background removal (complex) starting at just...",
-            timePrice: {
-              h12: 9.8,
-              h24: 7.0,
-              h48: 5.6,
-            },
-            description: {
-              title:
-                "How do we define complex image background removal service?",
-              desc: "Complex image background removal means multiple paths with many curves, complex body shape and many inside holes. This service applied to rectangular, round, and complex curved shaped product images furniture, chain, cycle, jewellery, group bracelets, group people, etc.",
-            },
-          },
-        },
-        {
-          name: "Color Correction",
-          simple: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/Simple-5.jpg",
-            subtitle: "Per color correction (simple) starting at just...",
-            timePrice: {
-              h12: 1.39,
-              h24: 0.99,
-              h48: 0.79,
-            },
-            description: {
-              title: "How do we define simple color correction service?",
-              desc: "Simple color correction means a single color correction with mostly one texture. It is suitable for one color image. Let us know your custom color and we will do it for you.",
-            },
-          },
-          medium: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/medium.jpg",
-            subtitle: "Per color correction (medium) starting at just...",
-            timePrice: {
-              h12: 2.79,
-              h24: 1.99,
-              h48: 1.59,
-            },
-            description: {
-              title: "How do we define medium color correction service?",
-              desc: "Medium color correction means multiple color correction with multiple textures. It is suitable for mix coloured image. Let us know your required colors and we will do it for you.",
-            },
-          },
-          complex: {
-            image:
-              "https://offshoreclipping.com/wp-content/uploads/2024/08/COPLEX.jpg",
-            subtitle:
-              "Per photo color correction (complex) starting at just...",
-            timePrice: {
-              h12: 3.5,
-              h24: 2.5,
-              h48: 2.0,
-            },
-            description: {
-              title: "How do we define a complex color correction service?",
-              desc: "Complex color correction means fixing different exposures on the model or product. It requires discovering the dull color from models skin or products and make them look realistic. Such color correction works require more time to separate different color layer and fix them accordingly.",
-            },
-          },
-        },
-      ];
-
-      // global variables
-      const ternTimeFormat = {
-        h12: "12h",
-        h24: "24h",
-        h48: "48h",
-      };
-
-      // global state variables
-      let quantity = parseInt(quantityDisplay.innerText);
-      let complexity = "simple";
-      let ternTime = "h12";
-      let service = allServices[0]?.name;
-      let selectedTernPrice = allServices[0]?.simple?.timePrice?.h12;
-      let showTable = false;
-      const tableData = [];
-      let data = {};
-
-      // render dynamic service option
+    const allServices = [
       {
-        if (allServices.length)
-          allServices.forEach((serviceOption) => {
-            const option = document.createElement("option");
-            option.innerText = serviceOption.name;
-            option.value = serviceOption.name;
-            selectService.appendChild(option);
-          });
-      }
+        name: "Background Removal Services",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple.jpg",
+          subtitle: "Per image background removal (Simple) starting at just",
+          timePrice: { h12: 0.49, h24: 0.49, h48: 0.49 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium.jpg",
+          subtitle: "Per image background removal (medium) starting at just",
+          timePrice: { h12: 1.25, h24: 1.25, h48: 1.25 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-1.jpg",
+          subtitle: "Per image background removal (complex) starting at just",
+          timePrice: { h12: 4.99, h24: 4.99, h48: 4.99 },
+        },
+      },
+      {
+        name: "Photo Retouching Services",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-2.jpg",
+          subtitle: "Per Photo Retouching (Simple) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-1.jpg",
+          subtitle: "Per Photo Retouching (medium) starting at just",
+          timePrice: { h12: 1.49, h24: 1.49, h48: 1.49 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-1-1.jpg",
+          subtitle: "Per Photo Retouching (complex) starting at just",
+          timePrice: { h12: 2.99, h24: 2.99, h48: 2.99 },
+        },
+      },
+      {
+        name: "Color Correction Services",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-3.jpg",
+          subtitle: "Per Photo Color Correction (Simple) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-2.jpg",
+          subtitle: "Per Photo Color Correction (medium) starting at just",
+          timePrice: { h12: 1.49, h24: 1.49, h48: 1.49 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-2.jpg",
+          subtitle: "Per Color Correction (complex) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+      },
+      {
+        name: "Ghost Mannequin Services",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-4.jpg",
+          subtitle: "Per Image Ghost Mannequin (Simple) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-3.jpg",
+          subtitle: "Per Image Ghost Mannequin (medium) starting at just",
+          timePrice: { h12: 1.39, h24: 1.39, h48: 1.39 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-3.jpg",
+          subtitle: "Per Image Ghost Mannequin (complex) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+      },
+      {
+        name: "Product Photo Retouching",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-5.jpg",
+          subtitle: "Per Product Retouching (Simple) starting at just",
+          timePrice: { h12: 0.49, h24: 0.49, h48: 0.49 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-4.jpg",
+          subtitle: "Per Product Retouching (medium) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-4.jpg",
+          subtitle: "Per Product Retouching (complex) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+      },
+      {
+        name: "Apparel Retouching",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-6.jpg",
+          subtitle: "Per Apparel Retouching (Simple) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-5.jpg",
+          subtitle: "Per Apparel Retouching (medium) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-5.jpg",
+          subtitle: "Per Apparel Retouching (complex) starting at just",
+          timePrice: { h12: 2.99, h24: 2.99, h48: 2.99 },
+        },
+      },
+      {
+        name: "Furniture Retouching",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-7.jpg",
+          subtitle: "Per Furniture Retouching (Simple) starting at just",
+          timePrice: { h12: 0.49, h24: 0.49, h48: 0.49 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-6.jpg",
+          subtitle: "Per Furniture Retouching (medium) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-6.jpg",
+          subtitle: "Per Furniture Retouching (complex) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+      },
+      {
+        name: "Flat Lay Image Editing",
+        simple: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Simple-8.jpg",
+          subtitle: "Per Flat lay image (Simple) starting at just",
+          timePrice: { h12: 0.49, h24: 0.49, h48: 0.49 },
+        },
+        medium: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Medium-7.jpg",
+          subtitle: "Per Flat lay image (medium) starting at just",
+          timePrice: { h12: 0.99, h24: 0.99, h48: 0.99 },
+        },
+        complex: {
+          image: "http://photoedite.com/wp-content/uploads/2026/01/Complex-7.jpg",
+          subtitle: "Per Flat lay image (complex) starting at just",
+          timePrice: { h12: 1.99, h24: 1.99, h48: 1.99 },
+        },
+      },
+    ];
 
-      // set complexity functions
-      complexityButtons.forEach((cButton) => {
-        cButton.addEventListener("click", (e) => {
-          complexityButtons.forEach((btn) =>
-            btn.classList.remove("complexity-active")
-          );
-          // add active class to clicked button
-          if (cButton.value === e.target.value) {
-            e.target.classList.add("complexity-active");
-            complexity = e.target.value; // set complexity
-            handleContent();
-          }
+    // global variables
+    const ternTimeFormat = {
+      h12: "12h",
+      h24: "24h",
+      h48: "48h",
+    };
+
+    // global state variables
+    let complexity = "simple";
+    let ternTime = "h12";
+    let service = allServices[0]?.name;
+    let selectedTernPrice = allServices[0]?.simple?.timePrice?.h12;
+    let data = {};
+
+    // render dynamic service option
+    {
+      if (allServices.length)
+        allServices.forEach((serviceOption) => {
+          const option = document.createElement("option");
+          option.innerText = serviceOption.name;
+          option.value = serviceOption.name;
+          selectService.appendChild(option);
         });
-      });
+    }
 
-      // set ternaround time
-      ternaroundTime.addEventListener("change", (e) => {
-        const availableTime = {
-          1: "h12",
-          2: "h24",
-          3: "h48",
-        };
-        ternTime = availableTime[e.target.value];
-        handleContent();
-      });
-
-      selectService.addEventListener("change", (e) => {
-        service = e.target.value;
-        handleContent();
-      });
-
-      function increaseQuantity() {
-        quantityDisplay.innerText = quantity += 1;
-        handleContent();
-      }
-
-      function decreaseQuantity() {
-        if (quantity > 1) {
-          quantityDisplay.innerText = quantity -= 1;
+    // set complexity functions
+    complexityButtons.forEach((cButton) => {
+      cButton.addEventListener("click", (e) => {
+        complexityButtons.forEach((btn) =>
+          btn.classList.remove("complexity-active")
+        );
+        // add active class to clicked button
+        if (cButton.value === e.target.value) {
+          e.target.classList.add("complexity-active");
+          complexity = e.target.value; // set complexity
           handleContent();
         }
-      }
+      });
+    });
 
-      function redirectToNext(url) {
-        window.location.replace(url);
-      }
+    // set ternaround time
+    ternaroundTime.addEventListener("change", (e) => {
+      const availableTime = {
+        1: "h12",
+        2: "h24",
+        3: "h48",
+      };
+      ternTime = availableTime[e.target.value];
+      handleContent();
+    });
 
-      function handleContent() {
-        const selectedComplexity = allServices.find(
-          (item) => item.name === service
-        )[complexity]; // find selected complexity
+    selectService.addEventListener("change", (e) => {
+      service = e.target.value;
+      handleContent();
+    });
 
-        data = {
-          name: service,
-          time: ternTimeFormat[ternTime],
-          complexity,
-          quantity,
-          unitPrice: selectedComplexity.timePrice[ternTime].toFixed(2),
-        };
+    function redirectToNext(url) {
+      window.location.replace(url);
+    }
 
-        title.innerText = service; // show selected service name
-        subtitle.innerText = selectedComplexity.subtitle; // show selected complexity subtitle
-        image.src = selectedComplexity.image; // show image of selected complexity
-        descriptionTitle.innerText = selectedComplexity.description.title; // show selected complexity description title
-        description.innerText = selectedComplexity.description.desc; // show selected complexity descrption content
-        priceBadge.innerText = `${data.unitPrice}$`; // show price of selected spacific terms
-      }
+    function handleContent() {
+      const selectedComplexity = allServices.find(
+        (item) => item.name === service
+      )[complexity]; // find selected complexity
 
-      // render table and calculate total price when clicked on calculate button
-      {
-        let totalPrice = 0.0;
+      data = {
+        name: service,
+        time: ternTimeFormat[ternTime],
+        complexity,
+        unitPrice: selectedComplexity.timePrice[ternTime].toFixed(2),
+      };
 
-        function handleCalculate() {
-          tableData.push(data);
-          tableBody.innerHTML = ``;
-          tableData.forEach((td) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${td.name}</td> <td>${td.time}</td> <td>${td.complexity}</td> <td>${td.quantity}</td> <td>$${td.unitPrice}</td>`;
-            tableBody.appendChild(tr);
-          });
-          tableContainer.style.display = ""; //show table
+      title.innerText = service; // show selected service name
+      subtitle.innerText = selectedComplexity.subtitle; // show selected complexity subtitle
+      image.src = selectedComplexity.image; // show image of selected complexity
+      priceBadge.innerText = `${data.unitPrice}$`; // show price of selected spacific terms
+    }
 
-          // calculate total price
-          totalPrice = data.quantity * data.unitPrice + totalPrice;
+    handleContent(); // show default values
+  </script>
+</body>
 
-          estTotalPrice.innerText = `$${totalPrice.toFixed(2)}`; //show total price
-        }
-      }
-
-      tableContainer.style.display = "none"; // default hide table
-      handleContent(); // show default values
-    </script>
-  </body>
 </html>
