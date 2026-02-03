@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Editing Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --primary-blue-hover: #0056b3;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --bg-color: #f9f9f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s ease;
+            background: #fff;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary-blue);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Custom Multi Select */
+        .multi-select-container {
+            grid-column: 1 / -1;
+            position: relative;
+        }
+
+        .tags-display {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 48px;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .tags-display:focus-within {
+            border-color: var(--primary-blue);
+        }
+
+        .tag {
+            background: #e0e0e0;
+            color: #333;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        .tag .close-tag {
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .tag .close-tag:hover {
+            color: #000;
+        }
+
+        .tags-display input {
+            border: none;
+            padding: 4px;
+            flex-grow: 1;
+            min-width: 100px;
+            outline: none;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-item.selected {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        /* Full width inputs */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            background: #fafafa;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .upload-area.drag-over {
+            background: #eef7ff;
+            border-color: var(--primary-blue);
+        }
+
+        .upload-area:hover {
+            background: #f0f0f0;
+        }
+
+        .upload-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-or {
+            color: #777;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .browse-files {
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .file-limit {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .upload-help {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* File List */
+        .file-list {
+            margin-bottom: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .file-remove {
+            color: #dc3545;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-blue-hover);
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container" x-data="photoForm()">
+        <form @submit.prevent="submitForm">
+            <div class="form-grid">
+                <input type="text" x-model="formData.name" placeholder="Your name*" required>
+                <input type="tel" x-model="formData.phone" placeholder="Your Phone No.*" required>
+
+                <input type="email" x-model="formData.email" placeholder="Your email ID*" required>
+                <input type="url" x-model="formData.url" placeholder="Your Website URL">
+
+                <!-- Custom Multi-Select -->
+                <div class="multi-select-container full-width" @click.outside="showDropdown = false">
+                    <div class="tags-display" @click="showDropdown = !showDropdown">
+                        <template x-for="(tag, index) in formData.tags" :key="index">
+                            <span class="tag">
+                                <span x-text="tag"></span>
+                                <span class="close-tag" @click.stop="removeTag(tag)">&times;</span>
+                            </span>
+                        </template>
+                        <input type="text" readonly placeholder="Select Services..."
+                            :value="formData.tags.length === 0 ? '' : ' '">
+                    </div>
+
+                    <div class="dropdown-menu" :class="{ 'show': showDropdown }">
+                        <template x-for="service in services" :key="service">
+                            <div class="dropdown-item" :class="{ 'selected': formData.tags.includes(service) }"
+                                @click="toggleService(service)">
+                                <span x-text="service"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <textarea class="full-width" x-model="formData.message" placeholder="Your Message"></textarea>
+            </div>
+
+            <!-- File Upload -->
+            <div class="upload-area" :class="{ 'drag-over': isDragging }" @dragover.prevent="isDragging = true"
+                @dragleave.prevent="isDragging = false" @drop.prevent="handleDrop($event)"
+                @click="$refs.fileInput.click()">
+                <div class="upload-title">Drag & Drop Files Here</div>
+                <div class="upload-or">or</div>
+                <a href="#" class="browse-files" @click.prevent="$refs.fileInput.click()">Browse Files</a>
+                <input type="file" x-ref="fileInput" multiple @change="handleFiles($event.target.files)"
+                    style="display: none;">
+                <span class="file-limit" x-text="`${formData.files.length} of 5`">0 of 5</span>
+            </div>
+
+            <div class="file-list" x-show="formData.files.length > 0">
+                <template x-for="(file, index) in formData.files" :key="index">
+                    <div class="file-item">
+                        <span x-text="file.name"></span>
+                        <span class="file-remove" @click="removeFile(index)">&times;</span>
+                    </div>
+                </template>
+            </div>
+
+            <p class="upload-help">If the size is more than 25 Mb, share your images via cloud (Google Drive, Dropbox or
+                WeTransfer)</p>
+
+            <div style="margin-bottom: 25px;">
+                <input type="text" x-model="formData.cloudLink" placeholder="Paste the link here">
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function photoForm() {
+            return {
+                formData: {
+                    name: '',
+                    phone: '',
+                    email: '',
+                    url: '',
+                    tags: [],
+                    message: '',
+                    files: [],
+                    cloudLink: ''
+                },
+                services: [
+                    'Video Editing',
+                    'Drop Shadow',
+                    'Background Removal',
+                    'Clipping Path',
+                    'Photo Retouching',
+                    'Ghost Mannequin',
+                    'Color Correction',
+                    'Image Masking',
+                    '3D and CGI',
+                    'Vector Conversion'
+                ],
+                showDropdown: false,
+                isDragging: false,
+
+                toggleService(service) {
+                    if (this.formData.tags.includes(service)) {
+                        this.formData.tags = this.formData.tags.filter(t => t !== service);
+                    } else {
+                        this.formData.tags.push(service);
+                    }
+                    // Keep dropdown open for multiple selection
+                },
+
+                removeTag(tag) {
+                    this.formData.tags = this.formData.tags.filter(t => t !== tag);
+                },
+
+                handleDrop(e) {
+                    this.isDragging = false;
+                    const droppedFiles = e.dataTransfer.files;
+                    this.handleFiles(droppedFiles);
+                },
+
+                handleFiles(files) {
+                    const newFiles = Array.from(files);
+                    const totalFiles = this.formData.files.length + newFiles.length;
+
+                    if (totalFiles > 5) {
+                        return;
+                    }
+
+                    this.formData.files = [...this.formData.files, ...newFiles];
+                },
+
+                removeFile(index) {
+                    this.formData.files.splice(index, 1);
+                },
+
+                submitForm() {
+                    console.log('Form Data Submitted:', this.formData);
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
