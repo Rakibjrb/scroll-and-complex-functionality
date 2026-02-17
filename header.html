@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Edite Header</title>
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-white: #ffffff;
+            --hover-bg: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+        }
+
+        /* Header Container */
+        header {
+            background-color: var(--bg-white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+            color: var(--primary-blue);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            /* Position relative removed to allow mega-menu to align with header */
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-link i.fa-chevron-down {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover .nav-link i.fa-chevron-down {
+            transform: rotate(180deg);
+            color: var(--primary-blue);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            white-space: nowrap;
+        }
+
+        .cta-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* Menu Toggle (Mobile) */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* Mega Menu */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            width: 100%;
+            max-width: 1300px;
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            /* Removed padding to allow full-height background columns */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* Equal width columns */
+            gap: 0;
+            /* Gap handled by column padding */
+            overflow: hidden;
+            /* Ensures background respects border-radius */
+        }
+
+        /* Show Mega Menu on Hover */
+        .nav-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Mega Menu Items */
+        .mm-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            /* Reduced padding for better space utilization */
+        }
+
+        /* First Column Background */
+        .mm-column:first-child {
+            background-color: #eff6ff;
+            /* Light blue background like picture */
+        }
+
+        .mm-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            /* Ensure items take full width of column */
+        }
+
+        .mm-item:hover {
+            background-color: transparent;
+            /* Remove hover bg, maybe just scale or text color change? */
+        }
+
+        .mm-column:not(:first-child) .mm-item:hover {
+            background-color: var(--hover-bg);
+            /* Only show hover bg on white columns */
+        }
+
+        .mm-icon {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            margin-top: 3px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .mm-content h4 {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .mm-content p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            line-height: 1.4;
+            max-width: 100%;
+            /* Allow text to use available width */
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+                order: 3;
+            }
+
+            .cta-button {
+                order: 2;
+                margin-right: 1rem;
+                display: none;
+                /* Hide button in header, move inside menu if preferred, or keep beside toggle */
+            }
+
+            /* Keep CTA visible on tablet/mobile or hide? 
+               Usually simpler to keep it or put in menu. 
+               Let's put a copy in menu or just style the menu to include it.
+               For this design, I'll make the nav-menu a drawer.
+            */
+            .cta-button.desktop-hide {
+                display: inline-block;
+                /* Show if we want it, but let's hide the main one and show link in menu */
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-white);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                gap: 0;
+            }
+
+            .nav-menu.active {
+                max-height: 100vh;
+                /* Allow expansion */
+                overflow-y: auto;
+            }
+
+            .nav-item {
+                width: 100%;
+                border-bottom: 1px solid #eee;
+            }
+
+            .nav-link {
+                padding: 1rem 1.5rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            /* Disable hover for mobile, rely on JS or make it static */
+            .nav-item:hover .mega-menu {
+                display: none;
+                /* Disable default hover behavior */
+            }
+
+            /* Mega Menu on Mobile */
+            .mega-menu {
+                position: static;
+                width: 100%;
+                max-width: 100%;
+                transform: none;
+                opacity: 1;
+                visibility: visible;
+                display: none;
+                /* Hidden by default */
+                padding: 0;
+                /* Reset from desktop grid padding reset */
+                box-shadow: none;
+                grid-template-columns: 1fr;
+                /* Single column */
+                gap: 0;
+                background-color: #f9fafb;
+                border-radius: 0;
+            }
+
+            .mm-column {
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid #eee;
+                /* Separator between columns on mobile */
+            }
+
+            .mm-column:first-child {
+                background-color: transparent;
+                /* Remove colored bg on mobile if desired, or keep */
+            }
+
+            .nav-item.active .mega-menu {
+                display: flex;
+                /* Or grid */
+                flex-direction: column;
+            }
+
+            .nav-item.active .nav-link i.fa-chevron-down {
+                transform: rotate(180deg);
+            }
+
+            /* Mobile CTA (Injecting via JS or just styling a link) */
+            .mobile-cta {
+                display: block;
+                margin: 1rem;
+                text-align: center;
+                width: calc(100% - 2rem);
+            }
+        }
+
+        @media screen and (min-width: 1025px) {
+            .mobile-cta {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <i class="fa-solid fa-camera-retro"></i>
+                <span>Photo Edite</span>
+            </a>
+
+            <!-- Menu -->
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                <li class="nav-item text-item">
+                    <a href="javascript:void(0)" class="nav-link" onclick="toggleSubMenu(this)">
+                        Services <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <!-- Mega Menu -->
+                    <div class="mega-menu">
+                        <!-- Column 1 -->
+                        <div class="mm-column">
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="mm-content">
+                                    <h4>Ecommerce Image Editing</h4>
+                                    <p>Make Jewelry Shine With Precise Editing And Color Correction.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                <div class="mm-content">
+                                    <h4>Photo Retouching Service</h4>
+                                    <p>Enhance Your Photos With Professional Retouching For Perfect Results.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-palette"></i></div>
+                                <div class="mm-content">
+                                    <h4>Color Correction Service</h4>
+                                    <p>Correct Colors To Make Images Vibrant, Realistic, And Appealing.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-box-open"></i></div>
+                                <div class="mm-content">
+                                    <h4>Product Photo Retouching</h4>
+                                    <p>Enhance Product Images For Catalogs, Ads, And Websites.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-user-tie"></i></div>
+                                <div class="mm-content">
+                                    <h4>Headshot & Portrait Retouching</h4>
+                                    <p>Professional Editing To Enhance Portraits And Business Headshots.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-house"></i></div>
+                                <div class="mm-content">
+                                    <h4>Real Estate Photo Editing</h4>
+                                    <p>Use AI Tools To Enhance Images Quickly And Efficiently.</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="mm-column">
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-shirt"></i></div>
+                                <div class="mm-content">
+                                    <h4>Flat Lay Image Editing</h4>
+                                    <p>Create Stunning Flat Lay Images For Social Media Or Catalogs.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-vest"></i></div>
+                                <div class="mm-content">
+                                    <h4>Ghost-Mannequin Services</h4>
+                                    <p>Optimize Product Images To Boost Your Online Store Sales.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-scissors"></i></div>
+                                <div class="mm-content">
+                                    <h4>Apparel Retouching</h4>
+                                    <p>Perfect Clothing Images By Removing Wrinkles, Shadows, And Imperfections.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-person-dress"></i></div>
+                                <div class="mm-content">
+                                    <h4>Fashion Model Image Editing</h4>
+                                    <p>Refine Model Photos For Magazines, Ads, And Online Campaigns.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                                <div class="mm-content">
+                                    <h4>Fashion Accessories Retouching</h4>
+                                    <p>Perfect Bags, Belts, And Accessories For Promotional Images.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-layer-group"></i></div>
+                                <div class="mm-content">
+                                    <h4>MockUp Creation</h4>
+                                    <p>Create Realistic Product Mockups For Marketing And Presentations.</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="mm-column">
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-gem"></i></div>
+                                <div class="mm-content">
+                                    <h4>Jewelry Photo Retouching</h4>
+                                    <p>Make Jewelry Shine With Precise Editing And Color Correction.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-couch"></i></div>
+                                <div class="mm-content">
+                                    <h4>Furniture Retouching</h4>
+                                    <p>Remove Mannequins To Display Apparel Professionally And Attractively.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-shoe-prints"></i></div>
+                                <div class="mm-content">
+                                    <h4>Footwear Retouching</h4>
+                                    <p>Make Shoe Photos Flawless For Ecommerce And Promotional Purposes.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-eraser"></i></div>
+                                <div class="mm-content">
+                                    <h4>Background Removal</h4>
+                                    <p>Remove Backgrounds To Focus On Products Or Subjects Cleanly.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-regular fa-square"></i></div>
+                                <div class="mm-content">
+                                    <h4>Shadow Creation</h4>
+                                    <p>Add Realistic Shadows To Products For Depth And Authenticity.</p>
+                                </div>
+                            </a>
+                            <a href="#" class="mm-item">
+                                <div class="mm-icon"><i class="fa-solid fa-desktop"></i></div>
+                                <div class="mm-content">
+                                    <h4>Photography Photo Editing</h4>
+                                    <p>Edit Photos To Improve Quality, Lighting, And Overall Appeal.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Portfolio</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Contact Us</a></li>
+                <!-- Mobile Only CTA -->
+                <a href="#" class="cta-button mobile-cta">Free Trial</a>
+            </ul>
+
+            <!-- CTA Button (Desktop) -->
+            <a href="#" class="cta-button">Free Trial</a>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        function toggleSubMenu(element) {
+            // Check if functionality is needed for desktop or only mobile
+            if (window.innerWidth <= 1024) {
+                const parentItem = element.parentElement;
+                parentItem.classList.toggle('active');
+            }
+        }
+    </script>
+</body>
+
+</html>
