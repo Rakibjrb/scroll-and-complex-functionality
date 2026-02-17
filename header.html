@@ -309,12 +309,13 @@
             }
 
             .mm-column {
-                padding: 1.5rem;
-                gap: 1.5rem;
+                padding: 1rem 1.5rem;
+                /* Adjust padding for mobile */
+                gap: 1rem;
                 border-bottom: 1px solid #eee;
                 /* Separator between columns on mobile */
-                align-items: center;
-                /* Center column items */
+                align-items: flex-start;
+                /* Align left properly */
             }
 
             .mm-column:first-child {
@@ -324,20 +325,29 @@
 
             .mm-item {
                 flex-direction: column;
-                align-items: left;
+                align-items: flex-start;
+                /* Fix invalid 'left' value */
                 text-align: left;
+                width: 100%;
             }
 
             .mm-content p {
-                max-width: 280px;
-                /* Constrain width to ensure it doesn't touch edges */
-                margin: 0 auto;
+                max-width: 100%;
+                /* Allow full width */
+                margin: 0;
             }
 
             .nav-item.active .mega-menu {
                 display: flex;
-                /* Or grid */
                 flex-direction: column;
+                transform: none !important;
+                /* Force reset of transform to prevent off-screen issue */
+                background-color: #f9fafb;
+                /* Ensure background is solid */
+                left: auto;
+                /* Ensure left positioning doesn't interfere */
+                position: static;
+                /* Reinforce static position */
             }
 
             .nav-item.active .nav-link i.fa-chevron-down {
