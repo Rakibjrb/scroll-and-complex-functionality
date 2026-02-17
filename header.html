@@ -77,10 +77,6 @@
             align-items: center;
         }
 
-        .nav-item {
-            /* Position relative removed to allow mega-menu to align with header */
-        }
-
         .nav-link {
             text-decoration: none;
             color: var(--text-dark);
@@ -314,14 +310,28 @@
 
             .mm-column {
                 padding: 1.5rem;
-                gap: 1rem;
+                gap: 1.5rem;
                 border-bottom: 1px solid #eee;
                 /* Separator between columns on mobile */
+                align-items: center;
+                /* Center column items */
             }
 
             .mm-column:first-child {
                 background-color: transparent;
                 /* Remove colored bg on mobile if desired, or keep */
+            }
+
+            .mm-item {
+                flex-direction: column;
+                align-items: left;
+                text-align: left;
+            }
+
+            .mm-content p {
+                max-width: 280px;
+                /* Constrain width to ensure it doesn't touch edges */
+                margin: 0 auto;
             }
 
             .nav-item.active .mega-menu {
