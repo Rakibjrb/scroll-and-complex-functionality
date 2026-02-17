@@ -188,14 +188,15 @@
             /* Ensure items take full width of column */
         }
 
-        .mm-item:hover {
-            background-color: transparent;
-            /* Remove hover bg, maybe just scale or text color change? */
+        /* Hover effect for items in the first column */
+        .mm-column:first-child .mm-item:hover {
+            background-color: #dbeafe;
+            /* Slightly darker blue interaction state */
         }
 
+        /* Hover effect for items in other columns */
         .mm-column:not(:first-child) .mm-item:hover {
             background-color: var(--hover-bg);
-            /* Only show hover bg on white columns */
         }
 
         .mm-icon {
